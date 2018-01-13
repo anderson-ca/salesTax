@@ -13,7 +13,7 @@ public class FileData {
         Item stuff = new Item(fileName);
 
         try {
-            System.out.println(stuff.createItems());
+            System.out.println(stuff.createTwoDimentionList());
 
         } catch( IOException e) {
             System.out.println(e.getMessage());

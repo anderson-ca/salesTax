@@ -1,6 +1,7 @@
 package textFiles;
 
 // Import libraries.
+
 import java.io.IOException;
 import java.io.FileReader;
 import java.io.BufferedReader;
@@ -21,7 +22,7 @@ public class Item {
 
     private BigDecimal price;
 
-
+    private List<List<Item>> shoppingList;
 
 
     public Item(String filePath) {
@@ -84,7 +85,7 @@ public class Item {
     //////////////////////////////////////////////
     //////////////////////////////////////////////
     //////////////////////////////////////////////
-    public List<List<String>> createItems() throws IOException {
+    public List<List<String>> createTwoDimentionList() throws IOException {
 
         List<String> file = openFile();
 
@@ -108,29 +109,10 @@ public class Item {
     //////////////////////////////////////////////
     //////////////////////////////////////////////
     //////////////////////////////////////////////
-    public List<List<Item>> assignItems() {
-        
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//    public List<List<Item>> assignItems() {
+//
+//        List<List<String>> twoDimensionList = new ArrayList<List<String>>();
+//    }
 
 
 }
