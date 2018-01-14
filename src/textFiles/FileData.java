@@ -13,53 +13,13 @@ public class FileData {
         Item stuff = new Item(fileName);
 
         try {
-            System.out.println(stuff.createTwoDimentionList());
+            stuff.ItemsFactory();
 
-        } catch( IOException e) {
+        } catch (Error e) {
             System.out.println(e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-//
-//        try {
-//
-//            // SAVE FILE PATH TO A VARIABLE.
-//
-//
-//            ReadFile someFile = new ReadFile(fileName);
-//
-//            someFile.printLines();
-//
-//        } catch (IOException e) {
-//
-//            System.out.println(e.getMessage());
-//        }
-//
-//
-//        // USE THE TRY CATCH IN ORDER TO CATCH ANY ERROR CAUSED BY THE OPERATION WITHOUT COMPLETELY CRASHING THE APPLICATION.
-//        try {
-//
-//            // CREATE A READFILE OBJ INSTANCE AND USE THE VARIABLE WITH THE TXT FILE PATH AS AN ARGUMENT.
-//            ReadFile myFile = new ReadFile(fileName);
-//
-//            // ASSIGN THE RETURN VALUE OF THE OPENFILE METHOD TO THE STRING OBJ ARRAY INSTANTIATE IN THE PAGE.
-//            String[] allLines = myFile.openFile();
-//
-//            // LOOP THROUGH THE ALLLINES ARRAY AND DISPLAY THE CONTENT IN EACH INDEX POSITION.
-//            for (int i = 0; i < allLines.length; i++) {
-//
-//                // OUTPUT OF THE DATA.
-//                System.out.println(allLines[i]);
-//
-//            }
-//
-//        } catch (IOException e) {
-//
-//            // DISPLAY THE ERROR MESSAGE IN CASE THE OPERATION FAILS.
-//            System.out.println("/////////////////////");
-//            System.out.println(e.getMessage());
-//            System.out.println("/////////////////////");
-//
-//        }
 
     }
 }

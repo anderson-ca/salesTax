@@ -2,6 +2,9 @@ package textFiles;
 
 // Import libraries.
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+
+import javax.management.ObjectName;
 import java.io.IOException;
 import java.io.FileReader;
 import java.io.BufferedReader;
@@ -18,7 +21,7 @@ public class Item {
 
     private int quantity;
 
-    private String product;
+    private String productName;
 
     private BigDecimal price;
 
@@ -28,6 +31,24 @@ public class Item {
     public Item(String filePath) {
 
         this.path = filePath;
+    }
+
+    //////////////////////////////////////////////
+    //////////////////////////////////////////////
+    //////////////////////////////////////////////
+    public void getQuantity(int q) {
+
+        this.quantity = q;
+    }
+
+    public void getProduct(String p) {
+
+        this.productName = p;
+    }
+
+    public void getPrice(BigDecimal p) {
+
+        this.price = p;
     }
 
     //////////////////////////////////////////////
@@ -85,7 +106,7 @@ public class Item {
     //////////////////////////////////////////////
     //////////////////////////////////////////////
     //////////////////////////////////////////////
-    public List<List<String>> createTwoDimentionList() throws IOException {
+    public List<List<String>> createTwoDimensionList() throws IOException {
 
         List<String> file = openFile();
 
@@ -108,11 +129,81 @@ public class Item {
 
     //////////////////////////////////////////////
     //////////////////////////////////////////////
-    //////////////////////////////////////////////
-//    public List<List<Item>> assignItems() {
+    ////////////////////////////////////////////
+//    public boolean ItemParser() {
 //
-//        List<List<String>> twoDimensionList = new ArrayList<List<String>>();
+//
 //    }
+
+    //////////////////////////////////////////////
+    //////////////////////////////////////////////
+    //////////////////////////////////////////////
+//    public void itemFactory(List<String> itemProperties) {
+//
+//        for (String property : itemProperties) {
+//
+//            if(itemProperties.size() == 7) {
+//                System.out.println("it worked!!");
+//                System.out.println(property);
+//            }
+//        }
+//    }
+
+    public boolean isImported(List<String> itemProperties) throws IOException {
+
+        boolean importedItem = false;
+
+            if (itemProperties.size() == 7 && (itemProperties.contains("imported"))) {
+
+                importedItem = true;
+            }
+
+        return importedItem;
+    }
+
+    //////////////////////////////////////////////
+    //////////////////////////////////////////////
+    //////////////////////////////////////////////
+    public void ItemsFactory() throws IOException {
+
+        List<List<String>> twoDimensionList = new ArrayList<List<String>>();
+
+        List<Item> groceryList = new ArrayList<Item>();
+
+        twoDimensionList = createTwoDimensionList();
+
+        // Parsing through two dimensional list in order to separate lists into four categories based on particular characteristics.
+        for (List<String> oneDimensionList : twoDimensionList) {
+
+            if (isImported(oneDimensionList)) {
+                System.out.println(oneDimensionList);
+            }
+
+//            // tax exempt, imported items.
+//            if (oneDimensionList.size() == 7 && oneDimensionList.contains("chocolates")) {
+//
+//                System.out.println("TAX EXEMPT IMPORTED ITEMS => " + oneDimensionList);
+//
+//                // not tax exempt, imported items.
+//            } else if (oneDimensionList.size() == 7 && oneDimensionList.contains("perfume")) {
+//
+//                System.out.println("NOT TAX EXEMPT IMPORTED ITEMS => " + oneDimensionList);
+//
+//                // not tax exempt not imported items.
+//            } else
+
+//            if ((oneDimensionList.size() <= 5 && ((oneDimensionList.contains("chocolate"))) | oneDimensionList.contains("book") | oneDimensionList.contains("headache"))) {
+//                System.out.println("TAX EXEMPT NOT IMPORTED ITEMS: " + oneDimensionList);
+//            }
+//
+//            if (oneDimensionList.size() <= 6 && (oneDimensionList.contains("perfume") || oneDimensionList.contains("CD"))) {
+//
+//                System.out.println("NOT TAX EXEMPT NOT IMPORTED ITEMS => " + oneDimensionList);
+//            }
+
+
+        }
+    }
 
 
 }
