@@ -17,6 +17,9 @@ import java.util.Currency;
 // Build Item model.
 public class Item {
 
+    //////////////////////////////////////////////
+    //////////// FIELDS (ATTRIBUTES) /////////////
+    //////////////////////////////////////////////
     private String path;
 
     private int quantity;
@@ -28,13 +31,16 @@ public class Item {
     private List<List<Item>> shoppingList;
 
 
+    //////////////////////////////////////////////
+    //////////// INITIALIZER METHOD //////////////
+    //////////////////////////////////////////////
     public Item(String filePath) {
 
         this.path = filePath;
     }
 
     //////////////////////////////////////////////
-    //////////////////////////////////////////////
+    ////////////////// GETTERS  //////////////////
     //////////////////////////////////////////////
     public void getQuantity(int q) {
 
@@ -51,10 +57,14 @@ public class Item {
         this.price = p;
     }
 
-    //////////////////////////////////////////////
-    //////////////////////////////////////////////
-    //////////////////////////////////////////////
-    int readLines() throws IOException {
+    /* METHODS USED TO OPEN AND PERFORM BASIC OPERATIONS. SUCH AS, READING LINES OF A
+     TXT FILE OR THE FILE ITSELF. */
+    ////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////// BASIC FILE OPERATION METHODS ////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////
+    // AS THE NAME REVEALS. THIS METHOD READS ALL THE LINES OF A TXT FILE AND RETURNS //
+    // A INT VARIABLE WHICH, REPRESENTS THE NUMBER OF LINES ON TXT FILE. ///////////////
+    private int readLines() throws IOException {
 
         FileReader fr = new FileReader(path);
 
@@ -64,6 +74,7 @@ public class Item {
 
         int numberOfLines = 0;
 
+        ////////////////////////////////////////////
         while ((someLine = br.readLine()) != null) {
 
             numberOfLines++;
@@ -74,9 +85,11 @@ public class Item {
         return numberOfLines;
     }
 
-    //////////////////////////////////////////////
-    //////////////////////////////////////////////
-    //////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    // METHOD USED IN CONJUNCTION WITH THE READ-LINES METHOD ///
+    // TO OPEN A TXT FILE. THIS METHOD RETURNS A STRING LIST. //
     public List<String> openFile() throws IOException {
 
         FileReader fr = new FileReader(path);
@@ -91,6 +104,7 @@ public class Item {
 
         textData.add(lines);
 
+        /////////////////////////////////////////
         for (int i = 0; i < numberOfLines; i++) {
 
             textData.add(br.readLine());
@@ -103,10 +117,15 @@ public class Item {
         return textData;
     }
 
-    //////////////////////////////////////////////
-    //////////////////////////////////////////////
-    //////////////////////////////////////////////
-    public List<List<String>> createTwoDimensionList() throws IOException {
+    /* METHODS USED TO OPERATE ON THE DATA STRUCTURE RETRIEVED BY THE CONJUNCTION OF THE
+     BASIC FILE OPERATION METHODS. */
+    /////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////
+    // METHOD USED TO ACCESS THE ELEMENTS OF A ONE DIMENSION LIST(A), AND BY PARSING ////
+    // THROUGH THE ELEMENTS OF LIST(A) THIS METHOD SPLITS EACH ELEMENT INTO A LIST(B). //
+    // THEREFORE, RETURN A TWO DIMENSION LIST (A)(B). ///////////////////////////////////
+    private List<List<String>> createTwoDimensionList() throws IOException {
 
         List<String> file = openFile();
 
@@ -116,7 +135,7 @@ public class Item {
 
         List<List<String>> itemList = new ArrayList<List<String>>();
 
-        //////////////////
+        //////////////////////////
         for (String part : file) {
 
             items = Arrays.asList(part.split(" "));
@@ -149,58 +168,67 @@ public class Item {
 //        }
 //    }
 
-    public boolean isImported(List<String> itemProperties) throws IOException {
+    /* HELPER METHODS USED TO ASSIST IN THE LOGICAL OPERATION OF THE ITEM-FACTORY METHOD. */
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    // METHOD RETURNS A BOOLEAN VALUE BASED ON THE NECESSARY CHARACTERISTICS OF AN ELEMENT, ///
+    // INSIDE THE ITEM-PROPERTIES LIST, TO INDICATE THAT THE ELEMENT IS IMPORTED OR NOT. //////
+    private boolean isImported(List<String> itemProperties) throws IOException {
 
         boolean importedItem = false;
 
-            if (itemProperties.size() == 7 && (itemProperties.contains("imported"))) {
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        if (itemProperties.size() == 7 && (itemProperties.contains("imported")) && (!itemProperties.contains("headache"))) {
 
-                importedItem = true;
-            }
+            importedItem = true;
+        }
 
         return importedItem;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////
+    // METHOD PERFORMS A SIMILAR OPERATION TO THE IS-IMPORTED METHOD. HOWEVER, THIS METHOD //
+    // CHECKS IF THE ELEMENT QUALIFIES AS A SALES TAX EXEMPT ITEM. //////////////////////////
+    private boolean isSalesTaxExempt(List<String> itemProperties) throws IOException {
+
+        boolean isExempt;
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        isExempt = itemProperties.contains("chocolate") || itemProperties.contains("book") || itemProperties.contains("headache") || itemProperties.contains("chocolates");
+
+        return isExempt;
     }
 
     //////////////////////////////////////////////
     //////////////////////////////////////////////
     //////////////////////////////////////////////
-    public void ItemsFactory() throws IOException {
+    void ItemsFactory() throws IOException {
 
-        List<List<String>> twoDimensionList = new ArrayList<List<String>>();
-
-        List<Item> groceryList = new ArrayList<Item>();
+        List<List<String>> twoDimensionList;
 
         twoDimensionList = createTwoDimensionList();
 
         // Parsing through two dimensional list in order to separate lists into four categories based on particular characteristics.
         for (List<String> oneDimensionList : twoDimensionList) {
 
-            if (isImported(oneDimensionList)) {
-                System.out.println(oneDimensionList);
+            if (isSalesTaxExempt(oneDimensionList) && !isImported(oneDimensionList)) {
+
+                System.out.println("TAX EXEMPT ITEMS: " + oneDimensionList);
+
+
+            } else if (!isSalesTaxExempt(oneDimensionList) && !isImported(oneDimensionList)) {
+
+                System.out.println("NOT TAX EXEMPT ITEMS: " + oneDimensionList);
+            } else if (isSalesTaxExempt(oneDimensionList) && isImported(oneDimensionList)) {
+
+                System.out.println("TAX EXEMPT IMPORTED ITEMS: " + oneDimensionList);
+            } else if (!isSalesTaxExempt(oneDimensionList) && isImported(oneDimensionList)) {
+
+                System.out.println("NOT TAX EXEMPT IMPORTED ITEMS: " + oneDimensionList);
             }
-
-//            // tax exempt, imported items.
-//            if (oneDimensionList.size() == 7 && oneDimensionList.contains("chocolates")) {
-//
-//                System.out.println("TAX EXEMPT IMPORTED ITEMS => " + oneDimensionList);
-//
-//                // not tax exempt, imported items.
-//            } else if (oneDimensionList.size() == 7 && oneDimensionList.contains("perfume")) {
-//
-//                System.out.println("NOT TAX EXEMPT IMPORTED ITEMS => " + oneDimensionList);
-//
-//                // not tax exempt not imported items.
-//            } else
-
-//            if ((oneDimensionList.size() <= 5 && ((oneDimensionList.contains("chocolate"))) | oneDimensionList.contains("book") | oneDimensionList.contains("headache"))) {
-//                System.out.println("TAX EXEMPT NOT IMPORTED ITEMS: " + oneDimensionList);
-//            }
-//
-//            if (oneDimensionList.size() <= 6 && (oneDimensionList.contains("perfume") || oneDimensionList.contains("CD"))) {
-//
-//                System.out.println("NOT TAX EXEMPT NOT IMPORTED ITEMS => " + oneDimensionList);
-//            }
-
 
         }
     }
