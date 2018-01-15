@@ -201,10 +201,12 @@ public class Item {
         for (String property: itemProperties) {
 
             if ((itemProperties.indexOf(property) != 0) && (itemProperties.indexOf(property) != lastItem)) {
-                System.out.println(property);
+                cleanProperties.add(property);
             }
 
         }
+
+        System.out.println(cleanProperties);
 
 //
 //        if (isSalesTaxExempt(itemProperties) && !isImported(itemProperties) && itemProperties.size() < 7) {
