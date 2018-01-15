@@ -4,15 +4,14 @@ package textFiles;
 
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 
-import javax.management.ObjectName;
 import java.io.IOException;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.List;
-import java.math.BigDecimal;
-import java.util.Currency;
+import java.util.ArrayList;
+import java.util.Collections.*;
 
 // Build Item model.
 public class Item {
@@ -90,7 +89,7 @@ public class Item {
     ////////////////////////////////////////////////////////////
     // METHOD USED IN CONJUNCTION WITH THE READ-LINES METHOD ///
     // TO OPEN A TXT FILE. THIS METHOD RETURNS A STRING LIST. //
-    public List<String> openFile() throws IOException {
+    private List<String> openFile() throws IOException {
 
         FileReader fr = new FileReader(path);
 
@@ -131,9 +130,7 @@ public class Item {
 
         List<String> items = null;
 
-        String trim;
-
-        List<List<String>> itemList = new ArrayList<List<String>>();
+        List<List<String>> itemList = new ArrayList<>();
 
         //////////////////////////
         for (String part : file) {
@@ -145,28 +142,6 @@ public class Item {
 
         return itemList;
     }////////////////////////// -> CREATE TWO DIMENSION LIST.
-
-    //////////////////////////////////////////////
-    //////////////////////////////////////////////
-    ////////////////////////////////////////////
-//    public boolean ItemParser() {
-//
-//
-//    }
-
-    //////////////////////////////////////////////
-    //////////////////////////////////////////////
-    //////////////////////////////////////////////
-//    public void itemFactory(List<String> itemProperties) {
-//
-//        for (String property : itemProperties) {
-//
-//            if(itemProperties.size() == 7) {
-//                System.out.println("it worked!!");
-//                System.out.println(property);
-//            }
-//        }
-//    }
 
     /* HELPER METHODS USED TO ASSIST IN THE LOGICAL OPERATION OF THE ITEM-FACTORY METHOD. */
     ///////////////////////////////////////////////////////////////////////////////////////////
@@ -205,31 +180,102 @@ public class Item {
     //////////////////////////////////////////////
     //////////////////////////////////////////////
     //////////////////////////////////////////////
-    void ItemsFactory() throws IOException {
+    //
+    private void itemFactory(List<String> itemProperties) throws IOException {
+
+//        // ASSIGN QUANTITY VALUE.
+//        quantity = Integer.getInteger(itemProperties.get(0));
+//
+//        // ASSIGN PRICE VALUE.
+//        price = new BigDecimal(itemProperties.get(itemProperties.size() - 1));
+
+        ///////////// (special case: medication)
+//        if (isSalesTaxExempt(itemProperties) && !isImported(itemProperties) && itemProperties.size() == 7) {
+//            System.out.println("Medication(special item): ");
+//            System.out.println(itemProperties.get(3));
+
+        List<String> cleanProperties = new ArrayList<>();
+
+        int lastItem = (itemProperties.size() -1);
+
+        for (String property: itemProperties) {
+
+            if ((itemProperties.indexOf(property) != 0) && (itemProperties.indexOf(property) != lastItem)) {
+                System.out.println(property);
+            }
+
+        }
+
+//
+//        if (isSalesTaxExempt(itemProperties) && !isImported(itemProperties) && itemProperties.size() < 7) {
+//
+//            System.out.println(itemProperties);
+//
+//            System.out.println("Tax exempt items: ");
+//
+//
+//        }
+
+//            /////////////
+//        } else if (!isSalesTaxExempt(itemProperties) && !isImported(itemProperties)) {
+//
+//            System.out.println("Not tax exempt items: ");
+//
+//            //////////////
+//            if (itemProperties.size() < 6) {
+//                System.out.println(itemProperties.get(2));
+//
+//            } else {
+//                System.out.println(itemProperties.get(3));
+//            }
+//        } else if (isSalesTaxExempt(itemProperties) && isImported(itemProperties)) {
+//
+//            System.out.println("Tax exempt and Imported: ");
+//            System.out.println(itemProperties.get(4));
+//            //////////////
+//        } else if (!isSalesTaxExempt(itemProperties) && isImported(itemProperties)) {
+//
+//            System.out.println("Not tax exempt and imported: ");
+//            System.out.println(itemProperties.get(4));
+//        }
+
+    }///////////////////////// -> ITEMS FACTORY.
+
+
+    //////////////////////////////////////////////
+    //////////////////////////////////////////////
+    //////////////////////////////////////////////
+    void groceryList() throws IOException {
 
         List<List<String>> twoDimensionList;
 
         twoDimensionList = createTwoDimensionList();
 
-        // Parsing through two dimensional list in order to separate lists into four categories based on particular characteristics.
         for (List<String> oneDimensionList : twoDimensionList) {
 
-            if (isSalesTaxExempt(oneDimensionList) && !isImported(oneDimensionList)) {
-
-                System.out.println("TAX EXEMPT ITEMS: " + oneDimensionList);
-
-            } else if (!isSalesTaxExempt(oneDimensionList) && !isImported(oneDimensionList)) {
-
-                System.out.println("NOT TAX EXEMPT ITEMS: " + oneDimensionList);
-            } else if (isSalesTaxExempt(oneDimensionList) && isImported(oneDimensionList)) {
-
-                System.out.println("TAX EXEMPT IMPORTED ITEMS: " + oneDimensionList);
-            } else if (!isSalesTaxExempt(oneDimensionList) && isImported(oneDimensionList)) {
-
-                System.out.println("NOT TAX EXEMPT IMPORTED ITEMS: " + oneDimensionList);
-            }
-
+            itemFactory(oneDimensionList);
         }
+
+//        // Parsing through two dimensional list in order to separate lists into four categories based on particular characteristics.
+//        for (List<String> oneDimensionList : twoDimensionList) {
+//
+//            if (isSalesTaxExempt(oneDimensionList) && !isImported(oneDimensionList)) {
+//
+//
+//                System.out.println("TAX EXEMPT ITEMS: " + oneDimensionList);
+//            } else if (!isSalesTaxExempt(oneDimensionList) && !isImported(oneDimensionList)) {
+//
+//                System.out.println("NOT TAX EXEMPT ITEMS: " + oneDimensionList);
+//            } else if (isSalesTaxExempt(oneDimensionList) && isImported(oneDimensionList)) {
+//
+//                System.out.println("TAX EXEMPT IMPORTED ITEMS: " + oneDimensionList);
+//            } else if (!isSalesTaxExempt(oneDimensionList) && isImported(oneDimensionList)) {
+//
+//                System.out.println("NOT TAX EXEMPT IMPORTED ITEMS: " + oneDimensionList);
+//            }
+//
+//        }
+
     }////////////////////////// -> ITEMS FACTORY.
 
 

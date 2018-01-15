@@ -13,7 +13,7 @@ public class FileData {
         Item stuff = new Item(fileName);
 
         try {
-            stuff.ItemsFactory();
+            stuff.groceryList();
 
         } catch (Error e) {
             System.out.println(e.getMessage());
