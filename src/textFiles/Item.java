@@ -2,7 +2,8 @@ package textFiles;
 
 // Import libraries.
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import com.sun.istack.internal.Nullable;
+
 
 import java.io.IOException;
 import java.io.FileReader;
@@ -12,6 +13,7 @@ import java.util.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections.*;
+import java.io.FileInputStream.*;
 
 // Build Item model.
 public class Item {
@@ -19,42 +21,53 @@ public class Item {
     //////////////////////////////////////////////
     //////////// FIELDS (ATTRIBUTES) /////////////
     //////////////////////////////////////////////
-    private String path;
-
-    private int quantity;
-
-    private String productName;
-
-    private BigDecimal price;
-
-    private List<List<Item>> shoppingList;
+//    private String path;
+//
+//    private int quantity;
+//
+//    private String productName;
+//
+//    private BigDecimal price;
+////
+////    @Nullable
+////    private List<List<Item>> shoppingList;
 
 
     //////////////////////////////////////////////
     //////////// INITIALIZER METHOD //////////////
     //////////////////////////////////////////////
-    public Item(String filePath) {
+//    public Item(int quantity, String productName, BigDecimal price) {
+//
+//        this.quantity = quantity;
+//
+//        this.productName = productName;
+//
+//        this.price = price;
+//    }
+//
+//    public Item() {
+//
+//    }
 
-        this.path = filePath;
-    }
 
     //////////////////////////////////////////////
     ////////////////// GETTERS  //////////////////
     //////////////////////////////////////////////
-    public void getQuantity(int q) {
 
-        this.quantity = q;
-    }
-
-    public void getProduct(String p) {
-
-        this.productName = p;
-    }
-
-    public void getPrice(BigDecimal p) {
-
-        this.price = p;
-    }////////////////////////// -> GETTERS.
+//    public void getQuantity(int q) {
+//
+//        this.quantity = q;
+//    }
+//
+//    public void getProduct(String p) {
+//
+//        this.productName = p;
+//    }
+//
+//    public void getPrice(BigDecimal p) {
+//
+//        this.price = p;
+//    }////////////////////////// -> GETTERS.
 
     /* METHODS USED TO OPEN AND PERFORM BASIC OPERATIONS. SUCH AS, READING LINES OF A
      TXT FILE OR THE FILE ITSELF. */
@@ -63,9 +76,12 @@ public class Item {
     ////////////////////////////////////////////////////////////////////////////////////
     // AS THE NAME REVEALS. THIS METHOD READS ALL THE LINES OF A TXT FILE AND RETURNS //
     // A INT VARIABLE WHICH, REPRESENTS THE NUMBER OF LINES ON TXT FILE. ///////////////
-    private int readLines() throws IOException {
 
-        FileReader fr = new FileReader(path);
+    static int readLines(String path) throws IOException {
+
+        String filePath = path;
+
+        FileReader fr = new FileReader(filePath);
 
         BufferedReader br = new BufferedReader(fr);
 
@@ -89,13 +105,13 @@ public class Item {
     ////////////////////////////////////////////////////////////
     // METHOD USED IN CONJUNCTION WITH THE READ-LINES METHOD ///
     // TO OPEN A TXT FILE. THIS METHOD RETURNS A STRING LIST. //
-    private List<String> openFile() throws IOException {
+    public static List<String> openFile(int numberOfLines, String path) throws IOException {
 
         FileReader fr = new FileReader(path);
 
         BufferedReader br = new BufferedReader(fr);
 
-        int numberOfLines = readLines();
+        numberOfLines = numberOfLines;
 
         String lines = String.valueOf(numberOfLines);
 
@@ -124,16 +140,14 @@ public class Item {
     // METHOD USED TO ACCESS THE ELEMENTS OF A ONE DIMENSION LIST(A), AND BY PARSING ////
     // THROUGH THE ELEMENTS OF LIST(A) THIS METHOD SPLITS EACH ELEMENT INTO A LIST(B). //
     // THEREFORE, RETURN A TWO DIMENSION LIST (A)(B). ///////////////////////////////////
-    private List<List<String>> createTwoDimensionList() throws IOException {
-
-        List<String> file = openFile();
+    public static List<List<String>> createTwoDimensionList(List<String> testList) throws IOException {
 
         List<String> items = null;
 
         List<List<String>> itemList = new ArrayList<>();
 
         //////////////////////////
-        for (String part : file) {
+        for (String part : testList) {
 
             items = Arrays.asList(part.split(" "));
 
@@ -149,136 +163,89 @@ public class Item {
     ///////////////////////////////////////////////////////////////////////////////////////////
     // METHOD RETURNS A BOOLEAN VALUE BASED ON THE NECESSARY CHARACTERISTICS OF AN ELEMENT, ///
     // INSIDE THE ITEM-PROPERTIES LIST, TO INDICATE THAT THE ELEMENT IS IMPORTED OR NOT. //////
-    private boolean isImported(List<String> itemProperties) throws IOException {
-
-        boolean importedItem = false;
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        if (itemProperties.size() == 7 && (itemProperties.contains("imported")) && (!itemProperties.contains("headache"))) {
-
-            importedItem = true;
-        }
-
-        return importedItem;
-    }////////////////////////// -> IS IMPORTED.
+//    private boolean isImported(List<String> itemProperties) throws IOException {
+//
+//        boolean importedItem = false;
+//
+//        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//        if (itemProperties.size() == 7 && (itemProperties.contains("imported")) && (!itemProperties.contains("headache"))) {
+//
+//            importedItem = true;
+//        }
+//
+//        return importedItem;
+//    }////////////////////////// -> IS IMPORTED.
 
     /////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////
     // METHOD PERFORMS A SIMILAR OPERATION TO THE IS-IMPORTED METHOD. HOWEVER, THIS METHOD //
     // CHECKS IF THE ELEMENT QUALIFIES AS A SALES TAX EXEMPT ITEM. //////////////////////////
-    private boolean isSalesTaxExempt(List<String> itemProperties) throws IOException {
-
-        boolean isExempt;
-
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        isExempt = itemProperties.contains("chocolate") || itemProperties.contains("book") || itemProperties.contains("headache") || itemProperties.contains("chocolates");
-
-        return isExempt;
-    }////////////////////////// -> IS SALES TAX EXEMPT.
-
-    //////////////////////////////////////////////
-    //////////////////////////////////////////////
-    //////////////////////////////////////////////
-    //
-    private void itemFactory(List<String> itemProperties) throws IOException {
-
-//        // ASSIGN QUANTITY VALUE.
-//        quantity = Integer.getInteger(itemProperties.get(0));
+//    private boolean isSalesTaxExempt(List<String> itemProperties) throws IOException {
 //
-//        // ASSIGN PRICE VALUE.
-//        price = new BigDecimal(itemProperties.get(itemProperties.size() - 1));
-
-        ///////////// (special case: medication)
-//        if (isSalesTaxExempt(itemProperties) && !isImported(itemProperties) && itemProperties.size() == 7) {
-//            System.out.println("Medication(special item): ");
-//            System.out.println(itemProperties.get(3));
-
-        List<String> cleanProperties = new ArrayList<>();
-
-        int lastItem = (itemProperties.size() -1);
-
-        for (String property: itemProperties) {
-
-            if ((itemProperties.indexOf(property) != 0) && (itemProperties.indexOf(property) != lastItem)) {
-                cleanProperties.add(property);
-            }
-
-        }
-
-        System.out.println(cleanProperties);
-
+//        boolean isExempt;
 //
-//        if (isSalesTaxExempt(itemProperties) && !isImported(itemProperties) && itemProperties.size() < 7) {
+//        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//        isExempt = itemProperties.contains("chocolate") || itemProperties.contains("book") || itemProperties.contains("headache") || itemProperties.contains("chocolates");
 //
-//            System.out.println(itemProperties);
+//        return isExempt;
+//    }////////////////////////// -> IS SALES TAX EXEMPT.
 //
-//            System.out.println("Tax exempt items: ");
+//    //////////////////////////////////////////////
+//    //////////////////////////////////////////////
+//    //////////////////////////////////////////////
+//    private Item itemFactory(List<List<String>> twoDimensionList) throws IOException {
 //
+//        List<String> shoppingList = new ArrayList<>();
 //
-//        }
-
-//            /////////////
-//        } else if (!isSalesTaxExempt(itemProperties) && !isImported(itemProperties)) {
+//        String propertyString = null;
 //
-//            System.out.println("Not tax exempt items: ");
+//        int lastItem = 0;
 //
-//            //////////////
-//            if (itemProperties.size() < 6) {
-//                System.out.println(itemProperties.get(2));
-//
-//            } else {
-//                System.out.println(itemProperties.get(3));
-//            }
-//        } else if (isSalesTaxExempt(itemProperties) && isImported(itemProperties)) {
-//
-//            System.out.println("Tax exempt and Imported: ");
-//            System.out.println(itemProperties.get(4));
-//            //////////////
-//        } else if (!isSalesTaxExempt(itemProperties) && isImported(itemProperties)) {
-//
-//            System.out.println("Not tax exempt and imported: ");
-//            System.out.println(itemProperties.get(4));
-//        }
-
-    }///////////////////////// -> ITEMS FACTORY.
-
-
-    //////////////////////////////////////////////
-    //////////////////////////////////////////////
-    //////////////////////////////////////////////
-    void groceryList() throws IOException {
-
-        List<List<String>> twoDimensionList;
-
-        twoDimensionList = createTwoDimensionList();
-
-        for (List<String> oneDimensionList : twoDimensionList) {
-
-            itemFactory(oneDimensionList);
-        }
-
-//        // Parsing through two dimensional list in order to separate lists into four categories based on particular characteristics.
 //        for (List<String> oneDimensionList : twoDimensionList) {
+//            lastItem = (oneDimensionList.size() - 1);
 //
-//            if (isSalesTaxExempt(oneDimensionList) && !isImported(oneDimensionList)) {
+//            // ASSIGN QUANTITY VALUE.
+//            quantity = Integer.getInteger(oneDimensionList.get(0));
 //
+//            // ASSIGN PRICE VALUE.
+//            price = new BigDecimal(oneDimensionList.get(oneDimensionList.size() - 1));
 //
-//                System.out.println("TAX EXEMPT ITEMS: " + oneDimensionList);
-//            } else if (!isSalesTaxExempt(oneDimensionList) && !isImported(oneDimensionList)) {
+//            ////////////////////////////////////////
+//            for (String property : oneDimensionList) {
 //
-//                System.out.println("NOT TAX EXEMPT ITEMS: " + oneDimensionList);
-//            } else if (isSalesTaxExempt(oneDimensionList) && isImported(oneDimensionList)) {
+//                ///////////////////////////////////////////////////////////////////////////////////////////////
+//                if ((oneDimensionList.indexOf(property) != 0) && (oneDimensionList.indexOf(property) != lastItem)) {
 //
-//                System.out.println("TAX EXEMPT IMPORTED ITEMS: " + oneDimensionList);
-//            } else if (!isSalesTaxExempt(oneDimensionList) && isImported(oneDimensionList)) {
+//                    shoppingList.add(property);
 //
-//                System.out.println("NOT TAX EXEMPT IMPORTED ITEMS: " + oneDimensionList);
+//                    // ASSIGN PRODUCT-NAME;
+//                    productName = String.join(" ", shoppingList);
+//                }
 //            }
 //
 //        }
-
-    }////////////////////////// -> ITEMS FACTORY.
+//
+//        return new Item(quantity, productName, price);
+//    }
+//
+//
+//    //////////////////////////////////////////////
+//    //////////////////////////////////////////////
+//    //////////////////////////////////////////////
+//    Item itemFactoryTest(String path) throws IOException {
+//
+//        int numberOfLines = readLines(path);
+//
+//        List<String> testList = openFile(numberOfLines, path);
+//
+//        List<List<String>> twoTestList = createTwoDimensionList(testList);
+//
+//       return itemFactory(twoTestList);
+//    }////////////////////////// -> ITEMS FACTORY TEST.
 
 
 }
+
+
+

@@ -10,10 +10,14 @@ public class FileData {
         String fileName = "/Users/andersoncardoso/Desktop/test.txt";
 
 
-        Item stuff = new Item(fileName);
+        Item stuff = new Item();
+
+        Product prod = new Product();
 
         try {
-            stuff.groceryList();
+
+            System.out.println(prod.execute(fileName));
+
 
         } catch (Error e) {
             System.out.println(e.getMessage());
