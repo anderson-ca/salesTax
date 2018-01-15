@@ -55,7 +55,7 @@ public class Item {
     public void getPrice(BigDecimal p) {
 
         this.price = p;
-    }
+    }////////////////////////// -> GETTERS.
 
     /* METHODS USED TO OPEN AND PERFORM BASIC OPERATIONS. SUCH AS, READING LINES OF A
      TXT FILE OR THE FILE ITSELF. */
@@ -83,7 +83,7 @@ public class Item {
         br.close();
 
         return numberOfLines;
-    }
+    }////////////////////////// -> READ LINES.
 
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
@@ -115,7 +115,7 @@ public class Item {
         br.close();
 
         return textData;
-    }
+    }////////////////////////// -> OPEN FILE.
 
     /* METHODS USED TO OPERATE ON THE DATA STRUCTURE RETRIEVED BY THE CONJUNCTION OF THE
      BASIC FILE OPERATION METHODS. */
@@ -144,7 +144,7 @@ public class Item {
         }
 
         return itemList;
-    }
+    }////////////////////////// -> CREATE TWO DIMENSION LIST.
 
     //////////////////////////////////////////////
     //////////////////////////////////////////////
@@ -185,7 +185,7 @@ public class Item {
         }
 
         return importedItem;
-    }
+    }////////////////////////// -> IS IMPORTED.
 
     /////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////
@@ -200,7 +200,7 @@ public class Item {
         isExempt = itemProperties.contains("chocolate") || itemProperties.contains("book") || itemProperties.contains("headache") || itemProperties.contains("chocolates");
 
         return isExempt;
-    }
+    }////////////////////////// -> IS SALES TAX EXEMPT.
 
     //////////////////////////////////////////////
     //////////////////////////////////////////////
@@ -218,7 +218,6 @@ public class Item {
 
                 System.out.println("TAX EXEMPT ITEMS: " + oneDimensionList);
 
-
             } else if (!isSalesTaxExempt(oneDimensionList) && !isImported(oneDimensionList)) {
 
                 System.out.println("NOT TAX EXEMPT ITEMS: " + oneDimensionList);
@@ -231,7 +230,7 @@ public class Item {
             }
 
         }
-    }
+    }////////////////////////// -> ITEMS FACTORY.
 
 
 }
