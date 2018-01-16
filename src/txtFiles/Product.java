@@ -1,51 +1,53 @@
-package textFiles;
+package txtFiles;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
-import textFiles.Item;
-
+////////////////////////////////////////////////////////////////////////////////////
+// BUILD PRODUCT MODEL USED TO BE POPULATED THE DATA RETRIEVED FROM THE TXT FILE. //
+////////////////////////////////////////////////////////////////////////////////////
 public class Product {
 
     //////////////////////////////////////////////
     //////////// FIELDS (ATTRIBUTES) /////////////
     //////////////////////////////////////////////
-
     private String quantity;
 
     private String productName;
 
     private String price;
 
-    private List<Product> groceryList = new ArrayList<Product>();
+    private List<Product> groceryList = new ArrayList<>();
 
+    //////////////////////////////////////////////////////////////////
+    // METHOD USED TO EXECUTE THE PROCESS OF READING THE FILE, ///////
+    // INSTANTIATING THE PRODUCT CLASS, AND RETURNING A LIST OF //////
+    // PRODUCTS. /////////////////////////////////////////////////////
     public List<Product> execute(String filePath) throws IOException {
 
         FileReader fr = new FileReader(filePath);
 
         BufferedReader br = new BufferedReader(fr);
 
-        List<String> textData = new ArrayList<>();
+        List<String> textData;
 
-        List<List<String>> twoDimensionList = new ArrayList<>();
+        List<List<String>> twoDimensionList;
 
-        int lines = Item.readLines(filePath);
+        int lines = FileHandler.readLines(filePath);
 
-        textData = Item.openFile(lines, filePath);
+        textData = FileHandler.openFile(lines, filePath);
 
-        twoDimensionList = Item.createTwoDimensionList(textData);
+        twoDimensionList = FileHandler.createTwoDimensionList(textData);
 
         return productFactory(twoDimensionList);
 
-    }
+    }////////////////////////// -> EXECUTE.
 
     //////////////////////////////////////////////
-    //////////// INITIALIZER METHOD //////////////
+    /////////// INITIALIZER METHODS //////////////
     //////////////////////////////////////////////
     public Product() {
 
@@ -60,31 +62,30 @@ public class Product {
         this.price = price;
     }
 
-    //////////////////////////////////////////////
-    //////////////////////////////////////////////
-    //////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////// METHOD USED TO GENERATE PRODUCT LISTS. ////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////
     public List<Product> productFactory(List<List<String>> twoDimensionList) throws IOException {
-
-        List<Product> shoppingProducts = new ArrayList<Product>();
 
         for (List<String> oneDimensionList : twoDimensionList) {
 
-            shoppingProducts.add(productGenerator(oneDimensionList));
+            groceryList.add(productGenerator(oneDimensionList));
         }
 
-        return shoppingProducts;
-    }
+        return groceryList;
+    }////////////////////////// -> PRODUCT FACTORY.
 
-    //////////////////////////////////////////////
-    //////////////////////////////////////////////
-    //////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////
+    // GENERATE AN INSTANCE OF THE PRODUCT CLASS WITH THE /////
+    // VALUES RETRIEVED FROM THE LIST PROPERTY. ///////////////
+    ///////////////////////////////////////////////////////////
     private Product productGenerator(List<String> properties) {
 
         int lastItem = (properties.size() - 1);
 
         int secondToLast = (properties.size() - 2);
 
-        List<String> testList = new ArrayList<>();
+        List<String> productNameList = new ArrayList<>();
 
         // ASSIGN QUANTITY VALUE.
         quantity = properties.get(0);
@@ -98,20 +99,29 @@ public class Product {
             ///////////////////////////////////////////////////////////////////////////////////////////////
             if ((properties.indexOf(property) != 0) && properties.indexOf(property) != lastItem && properties.indexOf(property) != secondToLast) {
 
-                testList.add(property);
+                productNameList.add(property);
             }
         }
 
         // ASSIGN PRODUCT-NAME;
-        productName = String.join(" ", testList);
+        productName = String.join(" ", productNameList);
 
         groceryList.add(new Product(quantity, productName, price));
 
         return new Product(quantity, productName, price);
+    }////////////////////////// -> PRODUCT GENERATOR.
+
+    private void displayShoppingList() {
+
+        for (Product product: groceryList) {
+            System.out.println("|| " + product.getQuantity() + " " + " " + product.getProductName() + " " +  product.getPrice());
+            System.out.println("============================================");
+
+        }
     }
 
     //////////////////////////////////////////////
-    //////////////////////////////////////////////
+    ////////////////// SETTERS ///////////////////
     //////////////////////////////////////////////
     public void setQuantity(String quantity) {
         this.quantity = quantity;
@@ -126,7 +136,7 @@ public class Product {
     }
 
     //////////////////////////////////////////////
-    //////////////////////////////////////////////
+    ////////////////// GETTERS  //////////////////
     //////////////////////////////////////////////
     public String getQuantity() {
 
@@ -143,25 +153,18 @@ public class Product {
         return this.price;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // THE MAIN METHOD WHERE I WILL RUN MY PROGRAM. ////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////
+    ///// WHERE THE PROGRAM SHOULD RUN /////
+    ////////////////////////////////////////
     public static void main(String[] args) {
         String fileName = "/Users/andersoncardoso/Desktop/test.txt";
 
         Product prod = new Product();
 
         try {
+            prod.execute(fileName);
 
-            for (Product arg : prod.execute(fileName)) {
-                System.out.println("QUANTITY: " + arg.quantity);
-                System.out.println("-----------");
-                System.out.println("PRODUCT: " + arg.productName);
-                System.out.println("-----------");
-                System.out.println("PRICE: " + arg.price);
-                System.out.println("////////////");
-            }
+            prod.displayShoppingList();
 
         } catch (Error e) {
             System.out.println(e.getMessage());
@@ -169,6 +172,6 @@ public class Product {
             e.printStackTrace();
         }
 
-    }
+    }/////////////////////////// -> MAIN METHOD.
 
-}
+}////////////////////////// -> PRODUCT CLASS.
