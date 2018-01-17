@@ -102,33 +102,33 @@ class FileHandler {
     ///////////////////////////////////////////////////////////////////////////////////////////
     // METHOD RETURNS A BOOLEAN VALUE BASED ON THE NECESSARY CHARACTERISTICS OF AN ELEMENT, ///
     // INSIDE THE ITEM-PROPERTIES LIST, TO INDICATE THAT THE ELEMENT IS IMPORTED OR NOT. //////
-//    private boolean isImported(List<String> itemProperties) throws IOException {
-//
-//        boolean importedItem = false;
-//
-//        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//        if (itemProperties.size() == 7 && (itemProperties.contains("imported")) && (!itemProperties.contains("headache"))) {
-//
-//            importedItem = true;
-//        }
-//
-//        return importedItem;
-//    }////////////////////////// -> IS IMPORTED.
+    private boolean isImported(List<String> itemProperties) throws IOException {
+
+        boolean importedItem = false;
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        if (itemProperties.size() == 7 && (itemProperties.contains("imported")) && (!itemProperties.contains("headache"))) {
+
+            importedItem = true;
+        }
+
+        return importedItem;
+    }////////////////////////// -> IS IMPORTED.
 
     /////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////
     // METHOD PERFORMS A SIMILAR OPERATION TO THE IS-IMPORTED METHOD. HOWEVER, THIS METHOD //
     // CHECKS IF THE ELEMENT QUALIFIES AS A SALES TAX EXEMPT ITEM. //////////////////////////
-//    private boolean isSalesTaxExempt(List<String> itemProperties) throws IOException {
-//
-//        boolean isExempt;
-//
-//        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//        isExempt = itemProperties.contains("chocolate") || itemProperties.contains("book") || itemProperties.contains("headache") || itemProperties.contains("chocolates");
-//
-//        return isExempt;
-//    }////////////////////////// -> IS SALES TAX EXEMPT.
+    private boolean isSalesTaxExempt(List<String> itemProperties) throws IOException {
+
+        boolean isExempt;
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        isExempt = itemProperties.contains("chocolate") || itemProperties.contains("book") || itemProperties.contains("headache") || itemProperties.contains("chocolates");
+
+        return isExempt;
+    }////////////////////////// -> IS SALES TAX EXEMPT.
 
 
 }

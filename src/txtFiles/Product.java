@@ -3,6 +3,7 @@ package txtFiles;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,11 +15,11 @@ public class Product {
     //////////////////////////////////////////////
     //////////// FIELDS (ATTRIBUTES) /////////////
     //////////////////////////////////////////////
-    private String quantity;
+    private BigDecimal quantity;
 
     private String productName;
 
-    private String price;
+    private BigDecimal price;
 
     private List<Product> groceryList = new ArrayList<>();
 
@@ -53,7 +54,7 @@ public class Product {
 
     }
 
-    public Product(String quantity, String productName, String price) {
+    public Product(BigDecimal quantity, String productName, BigDecimal price) {
 
         this.quantity = quantity;
 
@@ -67,12 +68,17 @@ public class Product {
     /////////////////////////////////////////////////////////////////////////////////////////////
     public List<Product> productFactory(List<List<String>> twoDimensionList) throws IOException {
 
+        List<Product> testList = new ArrayList<>();
+
         for (List<String> oneDimensionList : twoDimensionList) {
+
+            testList.add(productGenerator(oneDimensionList));
 
             groceryList.add(productGenerator(oneDimensionList));
         }
 
-        return groceryList;
+
+        return testList;
     }////////////////////////// -> PRODUCT FACTORY.
 
     ///////////////////////////////////////////////////////////
@@ -88,10 +94,10 @@ public class Product {
         List<String> productNameList = new ArrayList<>();
 
         // ASSIGN QUANTITY VALUE.
-        quantity = properties.get(0);
+        quantity = new BigDecimal(properties.get(0));
 
         // ASSIGN PRICE VALUE.
-        price = properties.get(lastItem);
+        price = new BigDecimal(properties.get(lastItem));
 
         ////////////////////////////////////////
         for (String property : properties) {
@@ -111,10 +117,10 @@ public class Product {
         return new Product(quantity, productName, price);
     }////////////////////////// -> PRODUCT GENERATOR.
 
-    private void displayShoppingList() {
+    public void displayShoppingList() {
 
-        for (Product product: groceryList) {
-            System.out.println("|| " + product.getQuantity() + " " + " " + product.getProductName() + " " +  product.getPrice());
+        for (Product product : groceryList) {
+            System.out.println("|| " + product.getQuantity() + " " + " " + product.getProductName() + " " + product.getPrice());
             System.out.println("============================================");
 
         }
@@ -123,22 +129,25 @@ public class Product {
     //////////////////////////////////////////////
     ////////////////// SETTERS ///////////////////
     //////////////////////////////////////////////
-    public void setQuantity(String quantity) {
+    public void setQuantity(BigDecimal quantity) {
+
         this.quantity = quantity;
     }
 
     public void setProductName(String productName) {
+
         this.productName = productName;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(BigDecimal price) {
+
         this.price = price;
     }
 
     //////////////////////////////////////////////
     ////////////////// GETTERS  //////////////////
     //////////////////////////////////////////////
-    public String getQuantity() {
+    public BigDecimal getQuantity() {
 
         return this.quantity;
     }
@@ -148,7 +157,7 @@ public class Product {
         return this.productName;
     }
 
-    public String getPrice() {
+    public BigDecimal getPrice() {
 
         return this.price;
     }
@@ -156,20 +165,13 @@ public class Product {
     ////////////////////////////////////////
     ///// WHERE THE PROGRAM SHOULD RUN /////
     ////////////////////////////////////////
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         String fileName = "/Users/andersoncardoso/Desktop/test.txt";
 
         Product prod = new Product();
 
-        try {
-            prod.execute(fileName);
-
-            prod.displayShoppingList();
-
-        } catch (Error e) {
-            System.out.println(e.getMessage());
-        } catch (IOException e) {
-            e.printStackTrace();
+        for (Product x : prod.execute(fileName)) {
+            System.out.println(x.getProductName());
         }
 
     }/////////////////////////// -> MAIN METHOD.
