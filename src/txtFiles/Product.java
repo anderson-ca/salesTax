@@ -23,11 +23,11 @@ public class Product {
 
     private List<Product> groceryList = new ArrayList<>();
 
-    //////////////////////////////////////////////////////////////////
-    // METHOD USED TO EXECUTE THE PROCESS OF READING THE FILE, ///////
-    // INSTANTIATING THE PRODUCT CLASS, AND RETURNING A LIST OF //////
-    // PRODUCTS. /////////////////////////////////////////////////////
-    public List<Product> execute(String filePath) throws IOException {
+    ////////////////////////////////////////////////////////////////////
+    // METHOD USED TO EXECUTE THE PROCESS OF READING THE FILE, /////////
+    // INSTANTIATING THE PRODUCT CLASS, RETURNING A LIST OF PRODUCTS, //
+    // AND PRODUCE THE FINAL RESULT. ///////////////////////////////////
+    public void execute(String filePath) throws IOException {
 
         FileReader fr = new FileReader(filePath);
 
@@ -43,7 +43,7 @@ public class Product {
 
         twoDimensionList = FileHandler.createTwoDimensionList(textData);
 
-        return productFactory(twoDimensionList);
+        Calculator.getTotalCost(productFactory(twoDimensionList));
 
     }////////////////////////// -> EXECUTE.
 
@@ -170,9 +170,7 @@ public class Product {
 
         Product prod = new Product();
 
-        for (Product x : prod.execute(fileName)) {
-            System.out.println(x.getProductName());
-        }
+        prod.execute(fileName);
 
     }/////////////////////////// -> MAIN METHOD.
 
